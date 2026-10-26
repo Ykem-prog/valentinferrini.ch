@@ -412,7 +412,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:1.06
 .winbody .rule{display:block;width:44px;height:2px;background:var(--cb-gold)}
 
 /* real screenshots: browser window on the cover, uncropped images in the sheet */
-.art.photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.art.bl-win{background:var(--cover-deep);display:grid;padding:10% 7% 7%;align-content:center}
 .art.cb{align-content:center;padding:12% 6% 6%}
 .win{grid-template-rows:auto auto}
 .winshot{display:block;width:100%;height:auto}
@@ -529,8 +529,11 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:1.06
 
     <article class="project">
       <div class="cover" data-open>
-        <div class="art photo" aria-hidden="true">
-          <img src="img/bl-site.jpg" width="1800" height="736" alt="">
+        <div class="art bl-win" aria-hidden="true">
+          <div class="win">
+            <div class="winbar"><i></i><i></i><i></i><span>blood-league.ch</span></div>
+            <img class="winshot" src="img/bl-site.jpg" width="1800" height="736" alt="">
+          </div>
         </div>
         <i class="glare"></i>
         <span class="chip">HEIG-VD × HUG</span>
