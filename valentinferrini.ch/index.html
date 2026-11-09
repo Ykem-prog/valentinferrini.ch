@@ -448,6 +448,43 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:1.06
 .art.euc-win{background:var(--pf-bg)}
 .art.pk-win{background:var(--night-2)}
 
+/* "Me contacter": recherche puis fenêtre « Profil compatible » */
+.mt-d{width:min(460px,calc(100% - 32px));max-height:calc(100% - 32px);margin:auto;padding:0;border:0;background:none;color:var(--fg);overflow:visible}
+.mt-d::backdrop{background:rgba(5,8,16,.72)}
+.mt{position:relative;background:var(--surface);padding:30px 28px 26px;display:grid;justify-items:center;gap:14px;text-align:center;border-top:4px solid var(--accent-fill);clip-path:polygon(0 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%)}
+.mt-pair{display:flex;align-items:center;justify-content:center;gap:0;margin:6px 0 2px}
+.mt-p{width:96px;aspect-ratio:5/6;clip-path:polygon(15% 0,100% 0,85% 100%,0 100%);background:var(--night-2);display:grid;place-items:center;overflow:hidden}
+.mt-p img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.mt-p.you{background:var(--surface-2);color:var(--muted);font:500 .6875rem/1.3 var(--data);letter-spacing:.08em;text-transform:uppercase}
+.mt-link{width:58px;height:3px;background:var(--accent-fill);position:relative}
+.mt-link::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:14px;translate:-50% -50%;rotate:45deg;background:var(--accent-fill)}
+.mt h2{font-size:clamp(2rem,8vw,2.6rem);color:var(--accent)}
+.mt-sub{color:var(--muted);max-width:30ch}
+.mt-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.mt-tags li{font:500 .75rem/1 var(--data);padding:7px 9px;border:1px solid var(--line)}
+.mt-acts{display:grid;gap:10px;width:100%;margin-top:6px}
+.mt-acts .btn{justify-content:center}
+.mt-later{background:none;border:0;color:var(--muted);font:500 .875rem/1 var(--body);padding:8px 12px;cursor:pointer}
+.mt-later:hover{color:var(--fg)}
+.mt-ring{position:absolute;top:14px;right:14px;width:40px;height:40px}
+.mt-ring circle{fill:none;stroke-width:3}
+.mt-ring .bg{stroke:var(--line)}
+.mt-ring .fg{stroke:var(--accent-fill);stroke-dasharray:106.8;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset 1s linear}
+.mt-ring text{font:600 13px/1 var(--data);fill:var(--fg)}
+.btn.searching{pointer-events:none}
+.btn.searching::after{content:"";width:13px;height:13px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:mt-spin .8s linear infinite}
+@keyframes mt-spin{to{rotate:360deg}}
+@media (prefers-reduced-motion:no-preference){
+  .mt-d[open] .mt{animation:mt-in .5s cubic-bezier(.2,1.2,.3,1) both}
+  .mt-d[open] .mt-p.me{animation:mt-slide .6s .15s cubic-bezier(.2,.8,.2,1) both}
+  .mt-d[open] .mt-p.you{animation:mt-slide-l .6s .15s cubic-bezier(.2,.8,.2,1) both}
+  .mt-d[open] .mt-link{animation:mt-grow .4s .55s cubic-bezier(.2,.8,.2,1) both}
+}
+@keyframes mt-in{from{opacity:0;translate:0 24px}}
+@keyframes mt-slide{from{opacity:0;translate:40px 0}}
+@keyframes mt-slide-l{from{opacity:0;translate:-40px 0}}
+@keyframes mt-grow{from{scale:0 1}}
+
 </style>
 </head>
 <body>
@@ -486,7 +523,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:1.06
     <div class="pitch">
       <p><span lang="fr">Je relie stratégie marketing, design d'interface et développement web pour mener un projet numérique de l'idée à la mise en ligne.</span><span lang="en">I connect marketing strategy, interface design and web development to take a digital project from idea to launch.</span></p>
       <div class="cta">
-        <a class="btn primary" href="#contact"><span lang="fr">Me contacter</span><span lang="en">Get in touch</span></a>
+        <a class="btn primary" href="#contact" data-match><span lang="fr">Me contacter</span><span lang="en">Get in touch</span></a>
         <a class="btn ghost" href="#projets"><span lang="fr">Voir les projets</span><span lang="en">See the projects</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
       </div>
     </div>
@@ -749,6 +786,26 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:1.06
   <span><span lang="fr">Ingénieur des médias, Vaud, Suisse</span><span lang="en">Media Engineer, Vaud, Switzerland</span></span>
 </footer>
 
+<dialog class="mt-d" id="match" aria-labelledby="mt-title">
+  <div class="mt">
+    <svg class="mt-ring" viewBox="0 0 40 40" aria-hidden="true"><circle class="bg" cx="20" cy="20" r="17"/><circle class="fg" id="mt-arc" cx="20" cy="20" r="17"/><text x="20" y="24.5" text-anchor="middle" id="mt-count">10</text></svg>
+    <span class="label"><span lang="fr">Mise en relation</span><span lang="en">Matchmaking</span></span>
+    <div class="mt-pair" aria-hidden="true">
+      <div class="mt-p you"><span lang="fr">Vous</span><span lang="en">You</span></div>
+      <i class="mt-link"></i>
+      <div class="mt-p me"><img id="mt-photo" alt=""></div>
+    </div>
+    <h2 class="display" id="mt-title"><span lang="fr">Profil compatible</span><span lang="en">It's a match</span></h2>
+    <p class="mt-sub"><span lang="fr">Valentin Ferrini est disponible pour rejoindre votre projet.</span><span lang="en">Valentin Ferrini is available to join your project.</span></p>
+    <ul class="mt-tags"><li><span lang="fr">Développement web</span><span lang="en">Web development</span></li><li><span lang="fr">Marketing digital</span><span lang="en">Digital marketing</span></li><li>Vaud, CH</li></ul>
+    <div class="mt-acts">
+      <a class="btn primary" id="mt-mail" href="mailto:ykem99@gmail.com?subject=Prise%20de%20contact%20via%20valentinferrini.ch"><span lang="fr">Prendre contact</span><span lang="en">Get in touch</span></a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/valentin-ferrini/" target="_blank" rel="noopener">LinkedIn<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10l6-6M5 4h5v5"/></svg></a>
+    </div>
+    <button type="button" class="mt-later" id="mt-later"><span lang="fr">Plus tard</span><span lang="en">Later</span></button>
+  </div>
+</dialog>
+
 <dialog class="sheet-d" id="sheet" aria-labelledby="sheet-title">
   <div class="sheet-bar"><div class="wrap"><span class="label" id="sheet-count"></span><button type="button" class="btn ghost sm" id="sheet-close"><span lang="fr">Fermer</span><span lang="en">Close</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div></div>
   <div class="wrap sheet-in" id="sheet-body"></div>
@@ -804,6 +861,36 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:1.06
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
   /* ── interactions that work in every mode ── */
+
+  // "Me contacter": courte recherche, puis fenêtre « Profil compatible » avec compte à rebours
+  var md = document.getElementById('match');
+  if (md && md.showModal) {
+    var mPhoto = document.getElementById('mt-photo'), heroImg = document.querySelector('.portrait img');
+    var mCount = document.getElementById('mt-count'), mArc = document.getElementById('mt-arc');
+    var mTimer = null, mFrom = null, mStill = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function mClose() { clearInterval(mTimer); if (md.open) md.close(); }
+    function mTick(n) { mCount.textContent = n; mArc.style.strokeDashoffset = String(106.8 * (1 - n / 10)); }
+    md.addEventListener('close', function () { clearInterval(mTimer); if (mFrom) mFrom.focus(); });
+    md.addEventListener('click', function (e) { if (e.target === md) mClose(); });
+    document.getElementById('mt-later').addEventListener('click', mClose);
+    document.getElementById('mt-mail').addEventListener('click', function () { setTimeout(mClose, 300); });
+    document.querySelectorAll('[data-match]').forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || b.classList.contains('searching')) return;
+        e.preventDefault();
+        mFrom = b;
+        if (heroImg && !mPhoto.getAttribute('src')) mPhoto.src = heroImg.src;
+        b.classList.add('searching');
+        setTimeout(function () {
+          b.classList.remove('searching');
+          var n = 10; mTick(n);
+          md.showModal();
+          clearInterval(mTimer);
+          mTimer = setInterval(function () { n -= 1; mTick(n); if (n <= 0) mClose(); }, 1000);
+        }, mStill ? 200 : 1400);
+      });
+    });
+  }
 
   // PEchau deck: drag the top card or use the two buttons
   var deck = $('.deck');
